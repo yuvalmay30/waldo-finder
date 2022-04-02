@@ -1,6 +1,0 @@
-path: ../datasets/augmented_dataset_x3
-train: ./train/images
-val: ./valid/images
-
-nc: 1
-names: ['Waldo']
