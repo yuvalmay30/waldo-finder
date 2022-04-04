@@ -1,7 +1,0 @@
-path: ../datasets/source_dataset_v2_tiled_6_5
-train: ./train/images
-val: ./valid/images
-test: ./test/images
-
-nc: 1
-names: ['Waldo']
