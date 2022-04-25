@@ -136,3 +136,4 @@ dmypy.json
 
 # Directories
 yolov5/
+datasets/source_dataset_v2_cropped_val/valid/labels.cache
