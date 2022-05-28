@@ -1,4 +1,14 @@
 # waldo-finder
+In this repository I represent the "Waldo Finder".  
+
+# Problem Definition
+The target is to detect Waldo in the original images of "Where's Waldo" books.
+It is an hard task for humans because Waldo is extremely small, hiding behind objects and 
+
+
+# Data
+
+
 
 
 # Results
