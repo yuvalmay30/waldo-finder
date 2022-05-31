@@ -91,7 +91,8 @@ Using `pretrained yolov5x + fine-tune (freezed backbone) + augmantations` measur
 
 You can see the performance of the model on various images:  
 
-<img src="https://user-images.githubusercontent.com/83128966/171244830-16f813ba-db0e-4cd4-9b93-2bc29142ef33.jpg" alt="drawing" width="2000"/>
+<img src="https://user-images.githubusercontent.com/83128966/171244830-16f813ba-db0e-4cd4-9b93-2bc29142ef33.jpg" alt="drawing" width="4000"/>
 
-<img src="https://user-images.githubusercontent.com/83128966/171245829-5d3d1d3a-8d2a-4860-b320-4b691be19f8a.jpg" alt="drawing" width="2000"/>
+<img src="https://user-images.githubusercontent.com/83128966/171245829-5d3d1d3a-8d2a-4860-b320-4b691be19f8a.jpg" alt="drawing" width="4000"/>
 
+<img src="https://user-images.githubusercontent.com/83128966/171250080-402c98a3-59be-4a85-8a51-2973eef5ed05.png" alt="drawing" width="1000"/>
