@@ -50,18 +50,48 @@ One problem is that the training images need to be resized to be in rectangular 
 
 In order to overcome this problem I chose to work on tiles of the original image. Each tile size is 640x640, and the Waldos look exactly as in the original image, just in a smaller one.  
 
-Another problem was that there only 42 Waldos in the training set, which makes this class really small and specific. I used Waldos augmantations in random locations in each image so the model will distinct the Waldos from backgrounds and other objects in the image. 
+Another problem was that there only 42 Waldos in the training set, which makes this class really small and specific. I used Waldos augmantations in random locations in each image so the model will distinct the Waldos from backgrounds and other objects in the image (which improved the results, see the `Results` section below). 
 
+## Measurement
+First and foremost, I trained the basic yolov5x with freeze on the first 10 layers (the backbone) on the basic dataset (without augmantations).  The result was 80% (on the validation set) for the Hit-Rate@5 metric, while I resize the images to 2400px. It is a great result but it won't work for different images in lower quality, for example, when I chose other resize the performance was 70%.  
+
+Hence, I wanted some more accurate preprcessing for the images.  
+I then padded each image (with black pixels) to be in a rectangular shape such that it wouldn't need to be resized.  
+The results were the same which is really good since its more accurate and doesn't change the input image.
+
+I tried another preprocess which is like the training process, divide the input image to tiles (of size 640x640). This method reduced the performance a bit.  
+
+After an error analysis, I recognized that the model didn't detect even the "easy" Waldos, those which are similar to the Waldos in the train. In order to improve this I added Waldos augmantations in random places in each image and re-trained the model. This method improved the model to 85% for all the preprocesses methods.
 
 # Results
+
+## Validation Set
+
+Here are the results on the validation set:
+
 | Model | Metric | Result |
 | ----- | ------ | ------ |
-| pretrained yolov5x + fine-tune (freezed backbone)| Hit-Rate@5 (resize=2400px) | 0.8% (16/20)
-| pretrained yolov5x + fine-tune (freezed backbone)| Hit-Rate@5 with rectangular padding | 0.8% (16/20)
-| pretrained yolov5x + fine-tune (freezed backbone)| Hit-Rate@5 (resize=2400px) | 0.7% (14/20)
-| pretrained yolov5x + fine-tune (freezed backbone) + augmantations | Hit-Rate@5 (resize=2400px) | 0.85% (17/20)
-| pretrained yolov5x + fine-tune (freezed backbone) + augmantations | Hit-Rate@5 with rectangular padding | 0.85% (17/20)
-| pretrained yolov5x + fine-tune (freezed backbone) + augmantations | Hit-Rate@5 with tiling | 0.85% (17/20)
-| pretrained yolov5x + fine-tune (unfreezed) + augmantations | Hit-Rate@5 (resize=2400px) | 0.9% (18/20)
-| pretrained yolov5x + fine-tune (unfreezed) + augmantations | Hit-Rate@5 with rectangular padding | 0.85% (17/20)
-| pretrained yolov5x + fine-tune (unfreezed) + augmantations | Hit-Rate@5 with tiling | 0.85% (17/20)
+| pretrained yolov5x + fine-tune (freezed backbone)| Hit-Rate@5 (resize=2400px) | 80% (16/20)
+| pretrained yolov5x + fine-tune (freezed backbone)| Hit-Rate@5 with rectangular padding | 80% (16/20)
+| pretrained yolov5x + fine-tune (freezed backbone)| Hit-Rate@5 with tiling | 70% (14/20)
+| pretrained yolov5x + fine-tune (freezed backbone) + augmantations | Hit-Rate@5 (resize=2400px) | 85% (17/20)
+| pretrained yolov5x + fine-tune (freezed backbone) + augmantations | Hit-Rate@5 with rectangular padding | 85% (17/20)
+| pretrained yolov5x + fine-tune (freezed backbone) + augmantations | Hit-Rate@5 with tiling | 85% (17/20)
+| pretrained yolov5x + fine-tune (unfreezed) + augmantations | Hit-Rate@5 (resize=2400px) | 90% (18/20)
+| pretrained yolov5x + fine-tune (unfreezed) + augmantations | Hit-Rate@5 with rectangular padding | 85% (17/20)
+| pretrained yolov5x + fine-tune (unfreezed) + augmantations | Hit-Rate@5 with tiling | 85% (17/20)
+
+We can see that the best result is for the `pretrained yolov5x + fine-tune (unfreezed) + augmantations` model, measured on the original `Hit-Rate@5 with resize of 2400px`. Although, the final model that I chose to continue measuring the test set is the `pretrained yolov5x + fine-tune (freezed backbone) + augmantations` measured on the `Hit-Rate@5 with rectangular padding` because it's more accurate.
+
+## Test set
+
+Using `pretrained yolov5x + fine-tune (freezed backbone) + augmantations` measured on the `Hit-Rate@5 with rectangular padding` gives us 75% success (6/8 images).
+
+# Visualization
+
+You can see the performance of the model on various images:  
+
+<img src="https://user-images.githubusercontent.com/83128966/171244830-16f813ba-db0e-4cd4-9b93-2bc29142ef33.jpg" alt="drawing" width="2000"/>
+
+<img src="https://user-images.githubusercontent.com/83128966/171245829-5d3d1d3a-8d2a-4860-b320-4b691be19f8a.jpg" alt="drawing" width="2000"/>
+
