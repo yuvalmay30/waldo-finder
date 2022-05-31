@@ -40,14 +40,28 @@ I tried out-of-the-box yolov5x model on a couple of images to examine if the mod
 
 <img src="https://user-images.githubusercontent.com/83128966/171216200-f51c44b8-e8cd-41d2-aaa6-97ae9602b82c.png" alt="drawing" width="500"/>
 
+These are 2 interesting results. In the first image the model detects Waldo as "Person" and couple of other "Persons", but miss a lot of blue "Persons", probably because they are blue and doesn't look much similar to persons.  
+In the second image, the model detects almost all "Persons" well and demonstrates the generalization pretty well.  
+My conclusion is that the pretrained yolov5x can be used with no extra training for the backbone, so I'll try that first and see the results.
+
+## Training
+As metioned before, the Waldos are extremely small which it makes them hard to be found.  
+One problem is that the training images need to be resized to be in rectangular shape. It changes the aspect ratio of the image and change how the Waldos look like. Moreover, some training images are in small resolution so the Waldos are blurred, so after the resize operation the Waldos absolutely change their apperance and hardly be recognized (even by humans).  
+
+In order to overcome this problem I chose to work on tiles of the original image. Each tile size is 640x640, and the Waldos look exactly as in the original image, just in a smaller one.  
+
+Another problem was that there only 42 Waldos in the training set, which makes this class really small and specific. I used Waldos augmantations in random locations in each image so the model will distinct the Waldos from backgrounds and other objects in the image. 
 
 
 # Results
 | Model | Metric | Result |
 | ----- | ------ | ------ |
-| pretrained yolov5x + fine-tune (unfreezed) | Hit-Rate@5 (resize=2400px) | 0.9% (18/20)
-| pretrained yolov5x + fine-tune (unfreezed) | Hit-Rate@5 with rectangular padding | 0.85% (17/20)
-| pretrained yolov5x + fine-tune (unfreezed) | Hit-Rate@5 with tiling | 0.85% (17/20)
-| pretrained yolov5x + fine-tune (freezed backbone) | Hit-Rate@5 (resize=2400px) | 0.85% (17/20)
-| pretrained yolov5x + fine-tune (freezed backbone) | Hit-Rate@5 with rectangular padding | 0.85% (17/20)
-| pretrained yolov5x + fine-tune (freezed backbone) | Hit-Rate@5 with tiling | 0.85% (17/20)
+| pretrained yolov5x + fine-tune (freezed backbone)| Hit-Rate@5 (resize=2400px) | 0.8% (16/20)
+| pretrained yolov5x + fine-tune (freezed backbone)| Hit-Rate@5 with rectangular padding | 0.8% (16/20)
+| pretrained yolov5x + fine-tune (freezed backbone)| Hit-Rate@5 (resize=2400px) | 0.7% (14/20)
+| pretrained yolov5x + fine-tune (freezed backbone) + augmantations | Hit-Rate@5 (resize=2400px) | 0.85% (17/20)
+| pretrained yolov5x + fine-tune (freezed backbone) + augmantations | Hit-Rate@5 with rectangular padding | 0.85% (17/20)
+| pretrained yolov5x + fine-tune (freezed backbone) + augmantations | Hit-Rate@5 with tiling | 0.85% (17/20)
+| pretrained yolov5x + fine-tune (unfreezed) + augmantations | Hit-Rate@5 (resize=2400px) | 0.9% (18/20)
+| pretrained yolov5x + fine-tune (unfreezed) + augmantations | Hit-Rate@5 with rectangular padding | 0.85% (17/20)
+| pretrained yolov5x + fine-tune (unfreezed) + augmantations | Hit-Rate@5 with tiling | 0.85% (17/20)
